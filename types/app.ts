@@ -21,7 +21,8 @@ export type TextTypeFormItem = {
   label: string
   variable: string
   required: boolean
-  max_length: number
+  max_length: number,
+  sup:"*"
 }
 
 export type SelectTypeFormItem = {

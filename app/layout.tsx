@@ -1,5 +1,5 @@
 import { getLocaleOnServer } from '@/i18n/server'
-import { Montserrat } from 'next/font/google'
+import { Montserrat, Poppins } from 'next/font/google'
 
 import './styles/globals.css'
 import './styles/markdown.scss'
@@ -20,7 +20,7 @@ const LocaleLayout = ({
   const locale = getLocaleOnServer()
   return (
     <html lang={locale ?? 'en'} className={`h-full ${montserrat.className}`}>
-      <body className="h-full">
+      <body className="h-full overflow-y-hidden">
         <div className="overflow-x-auto">
           <div className="w-screen h-screen min-w-[300px]">
             {children}

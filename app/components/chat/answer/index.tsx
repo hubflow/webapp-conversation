@@ -59,6 +59,7 @@ type IAnswerProps = {
   onFeedback?: FeedbackFunc
   isResponsing?: boolean
   allToolIcons?: Record<string, string | Emoji>
+  onQueryChange: (query: string) => void
 }
 
 // The component needs to maintain its own state to control whether to display input component
@@ -68,6 +69,7 @@ const Answer: FC<IAnswerProps> = ({
   onFeedback,
   isResponsing,
   allToolIcons,
+  onQueryChange
 }) => {
   const { id, content, feedback, agent_thoughts } = item
   const isAgentMode = !!agent_thoughts && agent_thoughts.length > 0
@@ -167,7 +169,7 @@ const Answer: FC<IAnswerProps> = ({
   return (
     <div key={id}>
       <div className='flex items-start'>
-        <div className={`${s.answerIcon} w-10 h-10 shrink-0`}>
+        <div className={`${s.answerIcon} w-[24px] h-[24px] shrink-0`}>
           {isResponsing
             && <div className={s.typeingIcon}>
               <LoadingAnim type='avatar' />
@@ -176,7 +178,7 @@ const Answer: FC<IAnswerProps> = ({
         </div>
         <div className={`${s.answerWrap}`}>
           <div className={`${s.answer} relative text-sm text-gray-900`}>
-            <div className={'ml-2 py-3 px-4'}>
+            <div className={'py-3 pt-0 px-4'}>
               {(isResponsing && (isAgentMode ? (!content && (agent_thoughts || []).filter(item => !!item.thought || !!item.tool).length === 0) : !content))
                 ? (
                   <div className='flex items-center justify-center w-6 h-5'>
@@ -188,7 +190,21 @@ const Answer: FC<IAnswerProps> = ({
                   : (
                     <Markdown content={content} />
                   ))}
+              {item.suggestedQuestions && item.suggestedQuestions.filter(q => !!q && q.trim()).length > 0 && (
+                <div className='flex flex-wrap'>
+                  {item.suggestedQuestions.filter(q => !!q && q.trim()).map((question, index) => (
+                    <div
+                      key={index}
+                      className='mt-1 mr-1 max-w-full last:mr-0 shrink-0 py-[5px] leading-[18px] items-center px-4 rounded-lg border border-gray-200 shadow-xs bg-white text-xs font-medium text-[#162040] cursor-pointer'
+                      onClick={() => onQueryChange(question)}
+                    >
+                      {question}
+                    </div>),
+                  )}
+                </div>
+              )}
             </div>
+
             <div className='absolute top-[-14px] right-[-14px] flex flex-row justify-end gap-1'>
               {!feedbackDisabled && !item.feedbackDisabled && renderItemOperation()}
               {/* User feedback must be displayed */}

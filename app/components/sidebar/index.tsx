@@ -35,13 +35,13 @@ const Sidebar: FC<ISidebarProps> = ({
   const { t } = useTranslation()
   return (
     <div
-      className="shrink-0 flex flex-col overflow-y-auto bg-[#101A3C] pc:w-[244px] tablet:w-[192px] mobile:w-[240px]  border-r border-gray-200 tablet:h-[calc(100vh)] mobile:h-screen"
+      className="shrink-0 flex flex-col overflow-y-auto bg-[#101A3C] pc:w-[261px] tablet:w-[192px] mobile:w-[261px]  border-r border-gray-200 tablet:h-[calc(100vh)] mobile:h-screen"
     >
       {list.length < MAX_CONVERSATION_LENTH && (
         <div className="flex flex-shrink-0 p-4 !pb-0">
           <Button
             onClick={() => { onCurrentIdChange('-1') }}
-            className="group block w-full flex-shrink-0 !justify-start !h-9 text-primary-600 items-center text-sm  !h-[50px]">
+            className="group block w-full flex-shrink-0 !justify-start !h-9 text-primary-600 items-center text-sm  !h-9">
             <PlusIcon className="mr-2 h-3 w-3" /> {t('app.chat.newChat')}
           </Button>
         </div>
@@ -60,13 +60,13 @@ const Sidebar: FC<ISidebarProps> = ({
                 isCurrent
                   ? 'bg-[#414C6F] text-[#ECECF1]'
                   : 'text-[#ECECF1] hover:bg-[#414C6F] hover:text-[#ECECF1]',
-                'group flex items-center justify-between rounded-md px-4 py-4 text-sm font-medium cursor-pointer',
+                'group flex items-center justify-between rounded-md px-4 py-4 text-[13.5px] font-medium cursor-pointer min-h-9 h-9',
               )}
             >
               <div className='flex items-center'>
                 <ItemIcon
                   className={classNames(
-                    'mr-4 h-4 w-4 flex-shrink-0',
+                    'mr-2 h-4 w-4 flex-shrink-0',
                   )}
                   aria-hidden="true"
                 />

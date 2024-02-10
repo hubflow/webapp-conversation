@@ -82,13 +82,15 @@ const Chat: FC<IChatProps> = ({
     notify({ type: 'error', message, duration: 3000 })
   }
 
-  const valid = () => {
-    if (!query || query.trim() === '') {
+  const valid = (q?: string) => {
+    const sendQuery = q || query
+    if (!sendQuery || sendQuery.trim() === '') {
       logError('Message cannot be empty')
       return false
     }
     return true
   }
+
 
   useEffect(() => {
     if (controlClearQuery)
@@ -104,10 +106,12 @@ const Chat: FC<IChatProps> = ({
     onClear,
   } = useImageFiles()
 
-  const handleSend = () => {
-    if (!valid() || (checkCanSend && !checkCanSend()))
+  // console.log({ x: checkCanSend && checkCanSend() })
+  // console.log({ VALID: valid() })
+  const handleSend = (q?: string) => {
+    if (!valid(q) || (checkCanSend && !checkCanSend()))
       return
-    onSend(query, files.filter(file => file.progress !== -1).map(fileItem => ({
+    onSend(q || query, files.filter(file => file.progress !== -1).map(fileItem => ({
       type: 'image',
       transfer_method: fileItem.type,
       url: fileItem.url,
@@ -130,6 +134,12 @@ const Chat: FC<IChatProps> = ({
     }
   }
 
+  const handleSuggestedQuestionsChange = (val: string) => {
+    setQuery(val.replace(/\n$/, ''));
+    handleSend(val)
+
+  }
+
   const handleKeyDown = (e: any) => {
     isUseInputMethod.current = e.nativeEvent.isComposing
     if (e.code === 'Enter' && !e.shiftKey) {
@@ -150,6 +160,7 @@ const Chat: FC<IChatProps> = ({
               item={item}
               feedbackDisabled={feedbackDisabled}
               onFeedback={onFeedback}
+              onQueryChange={handleSuggestedQuestionsChange}
               isResponsing={isResponsing && isLast}
             />
           }

@@ -16,7 +16,7 @@ type IQuestionProps = Pick<IChatItem, 'id' | 'content' | 'useCurrentUserAvatar'>
 const Question: FC<IQuestionProps> = ({ id, content, useCurrentUserAvatar, imgSrcs }) => {
   const userName = ''
   return (
-    <div className='flex items-start justify-start' key={id}>
+    <div className='flex items-center justify-start' key={id}>
       {useCurrentUserAvatar
         ? (
           <div className='w-10 h-10 shrink-0 leading-10 text-center mr-2 rounded-full bg-primary-600 text-white'>
@@ -24,7 +24,7 @@ const Question: FC<IQuestionProps> = ({ id, content, useCurrentUserAvatar, imgSr
           </div>
         )
         : (
-          <div className={`${s.questionIcon} w-10 h-10 shrink-0 `}>
+          <div className={`${s.questionIcon} w-[24px] h-[24px] shrink-0 `}>
             <ProfileIcon />
           </div>
         )}
