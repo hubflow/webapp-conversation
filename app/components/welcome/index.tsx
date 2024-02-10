@@ -91,19 +91,19 @@ const Welcome: FC<IWelcomeProps> = ({
 
   const renderInputs = () => {
     return (
-      <div className='space-y-3'>
+      <div className='space-y-6 w-full'>
         {promptConfig.prompt_variables.map(item => (
-          <div className='tablet:flex items-start mobile:space-y-2 tablet:space-y-0 mobile:text-xs tablet:text-sm' key={item.key}>
-            <label className={`flex-shrink-0 flex items-center tablet:leading-9 mobile:text-gray-700 tablet:text-gray-900 mobile:font-medium pc:font-normal ${s.formLabel}`}>{item.name}</label>
+          <div className='tablet:flex flex-col items-start mobile:space-y-2 tablet:space-y-0 mobile:text-xs tablet:text-sm' key={item.key}>
+            <label className={`flex-shrink-0 flex items-center tablet:leading-9 mobile:text-[#162040] tablet:text-[#162040] mobile:font-medium pc:font-normal ${s.formLabel}`}>{item.name}{item.type !== "select" && <sup>*</sup>}</label>
             {item.type === 'select'
               && (
                 <Select
-                  className='w-full'
+                  className='w-full box-border rounded-lg border border-[#EAECF0] !h-[46px]'
                   defaultValue={inputs?.[item.key]}
                   onSelect={(i) => { setInputs({ ...inputs, [item.key]: i.value }) }}
                   items={(item.options || []).map(i => ({ name: i, value: i }))}
                   allowSearch={false}
-                  bgClassName='bg-gray-50'
+                  bgClassName=''
                 />
               )}
             {item.type === 'string' && (
@@ -111,7 +111,8 @@ const Welcome: FC<IWelcomeProps> = ({
                 placeholder={`${item.name}${!item.required ? `(${t('appDebug.variableTable.optional')})` : ''}`}
                 value={inputs?.[item.key] || ''}
                 onChange={(e) => { setInputs({ ...inputs, [item.key]: e.target.value }) }}
-                className={'w-full flex-grow py-2 pl-3 pr-3 box-border rounded-lg bg-gray-50'}
+                className={'w-full flex-grow py-3 px-3.5 box-border rounded-lg border border-[#EAECF0] focus:!border focus:!border-[#EAECF0] !h-[46px]'}
+                style={{ boxShadow: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)" }}
                 maxLength={item.max_length || DEFAULT_VALUE_MAX_LEN}
               />
             )}
@@ -190,11 +191,13 @@ const Welcome: FC<IWelcomeProps> = ({
           <AppInfoComp siteInfo={siteInfo} />
         }
       >
-        {renderInputs()}
-        <ChatBtn
-          className='mt-3 mobile:ml-0 tablet:ml-[128px]'
-          onClick={handleChat}
-        />
+        <div className='pc:w-[440px] gap-[26px] flex flex-col items-end'>
+          {renderInputs()}
+          <ChatBtn
+            className='mobile:ml-0 tablet:ml-[128px] poppins-font'
+            onClick={handleChat}
+          />
+        </div>
       </TemplateVarPanel>
     )
   }
@@ -303,7 +306,7 @@ const Welcome: FC<IWelcomeProps> = ({
         {/*  Has't set inputs  */}
         {
           !hasSetInputs && (
-            <div className='mobile:pt-[72px] tablet:pt-[128px] pc:pt-[200px]'>
+            <div className='mobile:pt-[78px] tablet:pt-[78px] pc:pt-[78px] flex justify-center'>
               {hasVar
                 ? (
                   renderVarPanel()
@@ -319,7 +322,7 @@ const Welcome: FC<IWelcomeProps> = ({
         {hasSetInputs && renderHasSetInputs()}
 
         {/* foot */}
-        {!hasSetInputs && (
+        {/* {!hasSetInputs && (
           <div className='mt-4 flex justify-between items-center h-8 text-xs text-gray-400'>
 
             {siteInfo.privacy_policy
@@ -337,7 +340,7 @@ const Welcome: FC<IWelcomeProps> = ({
               <FootLogo />
             </a>
           </div>
-        )}
+        )} */}
       </div>
     </div >
   )

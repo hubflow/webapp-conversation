@@ -15,6 +15,9 @@ export const userInputsFormToPromptVariables = (useInputs: UserInputFormItem[] |
   if (!useInputs)
     return []
   const promptVariables: PromptVariable[] = []
+  const serializedPromptVariables = serializePromptVariables(useInputs)
+
+
   useInputs.forEach((item: any) => {
     const isParagraph = !!item.paragraph
     const [type, content] = (() => {
@@ -47,4 +50,17 @@ export const userInputsFormToPromptVariables = (useInputs: UserInputFormItem[] |
     }
   })
   return promptVariables
+}
+
+
+export const serializePromptVariables = (useInputs: UserInputFormItem[] | null)=>{
+
+  useInputs?.forEach((input:any) => {
+    if (input?.['text-input']) {
+        input['text-input'].label = 'Title';
+    } else if (input.select) {
+        input.select.label = 'Primary Contact';
+    }
+});
+  return useInputs;
 }

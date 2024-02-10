@@ -45,10 +45,6 @@ const Main: FC = () => {
     transfer_methods: [TransferMethod.local_file],
   })
 
-  useEffect(() => {
-    if (APP_INFO?.title)
-      document.title = `${APP_INFO.title} - Powered by Dify`
-  }, [APP_INFO?.title])
 
   // onData change thought (the produce obj). https://github.com/immerjs/immer/issues/576
   useEffect(() => {
@@ -205,7 +201,9 @@ const Main: FC = () => {
       isAnswer: true,
       feedbackDisabled: true,
       isOpeningStatement: isShowPrompt,
+      suggestedQuestions: openingSuggestedQuestions,
     }
+
     if (caculatedIntroduction)
       return [openstatement]
 
@@ -228,7 +226,8 @@ const Main: FC = () => {
         const isNotNewConversation = conversations.some(item => item.id === _conversationId)
 
         // fetch new conversation info
-        const { user_input_form, opening_statement: introduction, file_upload, system_parameters }: any = appParams
+        const { user_input_form, opening_statement: introduction, suggested_questions, file_upload, system_parameters, su }: any = appParams
+        setOpeningSuggestedQuestions(suggested_questions)
         setLocaleOnClient(APP_INFO.default_language, true)
         setNewConversationInfo({
           name: t('app.chat.newChatDefaultName'),
@@ -564,9 +563,9 @@ const Main: FC = () => {
     return <Loading type='app' />
 
   return (
-    <div className='bg-gray-100'>
+    <div className='bg-gray-100 h-full'>
 
-      <div className="flex bg-white overflow-hidden]">
+      <div className="flex bg-white overflow-hidden mobile:h-[93.5%] pc:h-full tablet:h-[93.5%]">
         {/* sidebar */}
         {!isMobile && renderSidebar()}
         {isMobile && isShowSidebar && (
@@ -580,7 +579,7 @@ const Main: FC = () => {
           </div>
         )}
         {/* main */}
-        <div className='flex-grow flex flex-col h-[100vh] overflow-y-auto'>
+        <div className='flex-grow flex flex-col overflow-y-auto'>
           <Header
             title={APP_INFO.title}
             isMobile={isMobile}

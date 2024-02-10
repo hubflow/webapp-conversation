@@ -36,7 +36,7 @@ const Select: FC<ISelectProps> = ({
   disabled = false,
   onSelect,
   allowSearch = true,
-  bgClassName = 'bg-gray-100',
+  bgClassName = '',
 }) => {
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
@@ -75,7 +75,7 @@ const Select: FC<ISelectProps> = ({
         <div className='group text-gray-800'>
           {allowSearch
             ? <Combobox.Input
-              className={`w-full rounded-lg border-0 ${bgClassName} py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6 focus-visible:outline-none focus-visible:bg-gray-200 group-hover:bg-gray-200 cursor-not-allowed`}
+              className={`w-full rounded-lg border-0 ${bgClassName} shadow-sm sm:text-sm sm:leading-6 focus-visible:outline-none focus-visible:bg-gray-200 group-hover:bg-gray-200 cursor-not-allowed  py-3 px-3.5`}
               onChange={(event) => {
                 if (!disabled)
                   setQuery(event.target.value)
@@ -87,7 +87,8 @@ const Select: FC<ISelectProps> = ({
                 if (!disabled)
                   setOpen(!open)
               }
-            } className={`flex items-center h-9 w-full rounded-lg border-0 ${bgClassName} py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6 focus-visible:outline-none focus-visible:bg-gray-200 group-hover:bg-gray-200`}>
+            } className={`flex items-center h-[46px] w-full rounded-lg border-0 ${bgClassName}  py-3 px-3.5 sm:text-sm sm:leading-6 focus-visible:outline-none`}
+              style={{ boxShadow: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)" }}>
               {selectedItem?.name}
             </Combobox.Button>}
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none group-hover:bg-gray-200" onClick={
