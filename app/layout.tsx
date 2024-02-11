@@ -3,6 +3,7 @@ import { Montserrat, Poppins } from 'next/font/google'
 
 import './styles/globals.css'
 import './styles/markdown.scss'
+import { Viewport } from 'next/dist/lib/metadata/types/extra-types'
 
 
 const montserrat = Montserrat({
@@ -11,6 +12,14 @@ const montserrat = Montserrat({
   subsets: ['latin'],
   display: 'swap',
 })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: 'cover',
+  userScalable: false,
+}
 
 const LocaleLayout = ({
   children,
