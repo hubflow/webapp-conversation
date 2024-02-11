@@ -223,7 +223,7 @@ const Chat: FC<IChatProps> = ({
                     </div>
                   }
                 >
-                  <div className={`${s.sendBtn} w-8 h-8 cursor-pointer rounded-md`} onClick={handleSend}></div>
+                  <div className={`${s.sendBtn} w-8 h-8 cursor-pointer rounded-md`} onClick={() => handleSend()}></div>
                 </Tooltip>
               </div>
             </div>
