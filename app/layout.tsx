@@ -4,6 +4,7 @@ import { Montserrat, Poppins } from 'next/font/google'
 import './styles/globals.css'
 import './styles/markdown.scss'
 import { Viewport } from 'next/dist/lib/metadata/types/extra-types'
+import { Metadata } from 'next'
 
 
 const montserrat = Montserrat({
@@ -18,9 +19,13 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   viewportFit: 'cover',
-  userScalable: false,
+  userScalable: false
 }
 
+export const metadata: Metadata = {
+  title: 'Chatflo AI',
+  viewport: viewport
+}
 const LocaleLayout = ({
   children,
 }: {
