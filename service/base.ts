@@ -297,22 +297,49 @@ export const ssePost = (url: string, fetchOptions: any, { onData, onCompleted, o
     })
 }
 
-export const request = (url: string, options = {}, otherOptions?: IOtherOptions) => {
+// base request
+export const request = <T>(url: string, options = {}, otherOptions?: IOtherOptions) => {
   return baseFetch(url, options, otherOptions || {})
 }
 
-export const get = (url: string, options = {}, otherOptions?: IOtherOptions) => {
-  return request(url, Object.assign({}, options, { method: 'GET' }), otherOptions)
+// request methods
+export const get = <T>(url: string, options = {}, otherOptions?: IOtherOptions) => {
+  return request<T>(url, Object.assign({}, options, { method: 'GET' }), otherOptions)
 }
 
-export const post = (url: string, options = {}, otherOptions?: IOtherOptions) => {
-  return request(url, Object.assign({}, options, { method: 'POST' }), otherOptions)
+// For public API
+export const getPublic = <T>(url: string, options = {}, otherOptions?: IOtherOptions) => {
+  return get<T>(url, options, { ...otherOptions, isPublicAPI: true })
 }
 
-export const put = (url: string, options = {}, otherOptions?: IOtherOptions) => {
-  return request(url, Object.assign({}, options, { method: 'PUT' }), otherOptions)
+export const post = <T>(url: string, options = {}, otherOptions?: IOtherOptions) => {
+  return request<T>(url, Object.assign({}, options, { method: 'POST' }), otherOptions)
 }
 
-export const del = (url: string, options = {}, otherOptions?: IOtherOptions) => {
-  return request(url, Object.assign({}, options, { method: 'DELETE' }), otherOptions)
+export const postPublic = <T>(url: string, options = {}, otherOptions?: IOtherOptions) => {
+  return post<T>(url, options, { ...otherOptions, isPublicAPI: true })
+}
+
+export const put = <T>(url: string, options = {}, otherOptions?: IOtherOptions) => {
+  return request<T>(url, Object.assign({}, options, { method: 'PUT' }), otherOptions)
+}
+
+export const putPublic = <T>(url: string, options = {}, otherOptions?: IOtherOptions) => {
+  return put<T>(url, options, { ...otherOptions, isPublicAPI: true })
+}
+
+export const del = <T>(url: string, options = {}, otherOptions?: IOtherOptions) => {
+  return request<T>(url, Object.assign({}, options, { method: 'DELETE' }), otherOptions)
+}
+
+export const delPublic = <T>(url: string, options = {}, otherOptions?: IOtherOptions) => {
+  return del<T>(url, options, { ...otherOptions, isPublicAPI: true })
+}
+
+export const patch = <T>(url: string, options = {}, otherOptions?: IOtherOptions) => {
+  return request<T>(url, Object.assign({}, options, { method: 'PATCH' }), otherOptions)
+}
+
+export const patchPublic = <T>(url: string, options = {}, otherOptions?: IOtherOptions) => {
+  return patch<T>(url, options, { ...otherOptions, isPublicAPI: true })
 }

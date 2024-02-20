@@ -18,3 +18,8 @@ export const API_PREFIX = '/api'
 export const LOCALE_COOKIE_NAME = 'locale'
 
 export const DEFAULT_VALUE_MAX_LEN = 48
+
+export const PUBLIC_API_PREFIX = 'api'
+
+const EDITION = process.env.NEXT_PUBLIC_EDITION || globalThis.document?.body?.getAttribute('data-public-edition') || 'SELF_HOSTED'
+export const IS_CE_EDITION = EDITION === 'SELF_HOSTED'

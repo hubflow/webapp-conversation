@@ -17,9 +17,9 @@ export const AppInfoComp: FC<{ siteInfo: AppInfo }> = ({ siteInfo }) => {
     <div className='flex justify-center'>
       <div className='flex flex-col justify-center items-center'>
         <Logo className="h-[48px] w-[48px]" />
-        <div className='flex items-center py-2 text-xl font-semibold text-[#101828] rounded-md'>{t('app.common.welcome')} {siteInfo.title}</div>
+        <div className='flex items-center py-2 text-xl font-semibold text-[#101828] rounded-md'>{t('app.common.welcome')} {siteInfo?.title}</div>
       </div>
-      <p className='text-sm text-gray-500'>{siteInfo.description}</p>
+      <p className='text-sm text-gray-500'>{siteInfo?.description}</p>
     </div>
   )
 }

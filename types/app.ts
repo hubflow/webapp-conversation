@@ -1,6 +1,7 @@
 import type { Annotation } from './log'
 import type { Locale } from '@/i18n'
 import type { ThoughtItem } from '@/app/components/chat/type'
+import { ModelConfig } from './debug'
 
 export type PromptVariable = {
   key: string
@@ -140,4 +141,11 @@ export type VisionFile = {
   url: string
   upload_file_id: string
   belongs_to?: string
+}
+
+export type ChatConfig = Omit<ModelConfig, 'model'> & {
+  supportAnnotation?: boolean
+  appId?: string
+  supportFeedback?: boolean
+  supportCitationHitInfo?: boolean
 }

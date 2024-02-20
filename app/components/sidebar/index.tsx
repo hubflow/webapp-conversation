@@ -1,29 +1,41 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  ChatBubbleOvalLeftEllipsisIcon,
   PencilSquareIcon,
 } from '@heroicons/react/24/outline'
-import { ChatBubbleOvalLeftEllipsisIcon as ChatBubbleOvalLeftEllipsisSolidIcon } from '@heroicons/react/24/solid'
+import cn from 'classnames'
 import Button from '@/app/components/base/button'
+import List from './list'
+
 // import Card from './card'
-import type { ConversationItem } from '@/types/app'
-import MessageIcon from '@/app/components/icons/MessageIcon'
-import PlusIcon from '../icons/PlusIcon'
-import PenIcon from '../icons/PenIcon'
 
-function classNames(...classes: any[]) {
-  return classes.filter(Boolean).join(' ')
-}
-
-const MAX_CONVERSATION_LENTH = 20
+import { fetchConversations } from '@/service'
+import { ConversationItem } from '@/types/app'
+import { AppInfoComp } from '../welcome/massive-component'
 
 export type ISidebarProps = {
   copyRight: string
   currentId: string
   onCurrentIdChange: (id: string) => void
   list: ConversationItem[]
+  onListChanged: (newList: ConversationItem[]) => void
+  isClearConversationList: boolean
+  pinnedList: ConversationItem[]
+  onPinnedListChanged: (newList: ConversationItem[]) => void
+  isClearPinnedConversationList: boolean
+  isInstalledApp: boolean
+  installedAppId?: string
+  siteInfo: SiteInfo
+  onMoreLoaded: (res: { data: ConversationItem[]; has_more: boolean }) => void
+  onPinnedMoreLoaded: (res: { data: ConversationItem[]; has_more: boolean }) => void
+  isNoMore: boolean
+  isPinnedNoMore: boolean
+  onPin: (id: string) => void
+  onUnpin: (id: string) => void
+  controlUpdateList: number
+  onDelete: (id: string) => void
+  onStartChat: (inputs: Record<string, any>) => void
 }
 
 const Sidebar: FC<ISidebarProps> = ({
@@ -31,58 +43,125 @@ const Sidebar: FC<ISidebarProps> = ({
   currentId,
   onCurrentIdChange,
   list,
+  onListChanged,
+  isClearConversationList,
+  pinnedList,
+  onPinnedListChanged,
+  isClearPinnedConversationList,
+  isInstalledApp,
+  installedAppId,
+  siteInfo,
+  onMoreLoaded,
+  onPinnedMoreLoaded,
+  isNoMore,
+  isPinnedNoMore,
+  onPin,
+  onUnpin,
+  controlUpdateList,
+  onDelete,
+  onStartChat,
 }) => {
+  console.log({ list })
   const { t } = useTranslation()
+  const [hasPinned, setHasPinned] = useState(false)
+
+  const checkHasPinned = async () => {
+    const res = await fetchConversations(isInstalledApp, installedAppId, undefined, true) as any
+    setHasPinned(res.data.length > 0)
+  }
+
+  useEffect(() => {
+    checkHasPinned()
+  }, [])
+
+  useEffect(() => {
+    if (controlUpdateList !== 0)
+      checkHasPinned()
+  }, [controlUpdateList])
+
+  const handleUnpin = useCallback((id: string) => {
+    onUnpin(id)
+  }, [onUnpin])
+  const handlePin = useCallback((id: string) => {
+    onPin(id)
+  }, [onPin])
+
+  const maxListHeight = (isInstalledApp) ? 'max-h-[30vh]' : 'max-h-[40vh]'
+
   return (
     <div
-      className="shrink-0 flex flex-col overflow-y-auto bg-[#101A3C] pc:w-[261px] tablet:w-[192px] mobile:w-[261px]  border-r border-gray-200 tablet:h-[calc(100vh)] mobile:h-screen"
+      className={
+        cn(
+          (isInstalledApp) ? 'tablet:h-[calc(100vh_-_74px)]' : '',
+          'shrink-0 flex flex-col overflow-y-auto bg-[#101A3C] pc:w-[261px] tablet:w-[192px] mobile:w-[261px]  border-r border-gray-200 tablet:h-[calc(100vh)] mobile:h-screen',
+        )
+      }
     >
-      {list.length < MAX_CONVERSATION_LENTH && (
-        <div className="flex flex-shrink-0 p-4 !pb-0">
-          <Button
-            onClick={() => { onCurrentIdChange('-1') }}
-            className="group block w-full flex-shrink-0 !justify-start !h-9 text-primary-600 items-center text-sm  !h-9">
-            <PlusIcon className="mr-2 h-3 w-3" /> {t('app.chat.newChat')}
-          </Button>
-        </div>
+      {isInstalledApp && (
+        <AppInfoComp
+          className='my-4 px-4'
+          name={siteInfo.title || ''}
+          icon={siteInfo.icon || ''}
+          icon_background={siteInfo.icon_background}
+        />
       )}
+      <div className="flex flex-shrink-0 p-4 !pb-0">
+        <Button
+          onClick={() => onStartChat({})}
+          className="flex group w-full flex-shrink-0 !justify-start !h-9 text-primary-600 items-center text-sm">
+          <PencilSquareIcon className="mr-2 h-4 w-4" /> {t('app.chat.newChat')}
+        </Button>
+      </div>
+      <div className={'flex-grow flex flex-col h-0 overflow-y-auto overflow-x-hidden'}>
+        {/* pinned list */}
+        {hasPinned && (
+          <div className={cn('mt-4 px-4', list.length === 0 && 'flex flex-col flex-grow')}>
+            <div className='mb-1.5 leading-[18px] text-xs text-gray-500 font-medium uppercase'>{t('app.chat.pinnedTitle')}</div>
+            <List
+              className={cn(list.length > 0 ? maxListHeight : 'flex-grow')}
+              currentId={currentId}
+              onCurrentIdChange={onCurrentIdChange}
+              list={pinnedList}
+              onListChanged={onPinnedListChanged}
+              isClearConversationList={isClearPinnedConversationList}
+              isInstalledApp={isInstalledApp}
+              installedAppId={installedAppId}
+              onMoreLoaded={onPinnedMoreLoaded}
+              isNoMore={isPinnedNoMore}
+              isPinned={true}
+              onPinChanged={handleUnpin}
+              controlUpdate={controlUpdateList + 1}
+              onDelete={onDelete}
+            />
+          </div>
+        )}
+        {/* unpinned list */}
+        <div className={cn('grow flex flex-col mt-4 px-4', !hasPinned && 'flex flex-col flex-grow')}>
+          {(hasPinned && list.length > 0) && (
+            <div className='mb-1.5 leading-[18px] text-xs text-gray-500 font-medium uppercase'>{t('app.chat.unpinnedTitle')}</div>
+          )}
+          <List
+            className={cn('flex-grow h-0')}
+            currentId={currentId}
+            onCurrentIdChange={onCurrentIdChange}
+            list={list}
+            onListChanged={onListChanged}
+            isClearConversationList={isClearConversationList}
+            isInstalledApp={isInstalledApp}
+            installedAppId={installedAppId}
+            onMoreLoaded={onMoreLoaded}
+            isNoMore={isNoMore}
+            isPinned={false}
+            onPinChanged={handlePin}
+            controlUpdate={controlUpdateList + 1}
+            onDelete={onDelete}
+          />
+        </div>
 
-      <nav className="mt-4 flex-1 space-y-1 p-4 !pt-0">
-        {list.map((item) => {
-          const isCurrent = item.id === currentId
-          const ItemIcon
-            = MessageIcon
-          return (
-            <div
-              onClick={() => onCurrentIdChange(item.id)}
-              key={item.id}
-              className={classNames(
-                isCurrent
-                  ? 'bg-[#414C6F] text-[#ECECF1]'
-                  : 'text-[#ECECF1] hover:bg-[#414C6F] hover:text-[#ECECF1]',
-                'group flex items-center justify-between rounded-md px-4 py-4 text-[13.5px] font-medium cursor-pointer min-h-9 h-9',
-              )}
-            >
-              <div className='flex items-center'>
-                <ItemIcon
-                  className={classNames(
-                    'mr-2 h-4 w-4 flex-shrink-0',
-                  )}
-                  aria-hidden="true"
-                />
-                {item.name}
-              </div>
-              {isCurrent ? <PenIcon /> : null}
-            </div>
-          )
-        })}
-      </nav>
-      {/* <a className="flex flex-shrink-0 p-4" href="https://langgenius.ai/" target="_blank">
-        <Card><div className="flex flex-row items-center"><ChatBubbleOvalLeftEllipsisSolidIcon className="text-primary-600 h-6 w-6 mr-2" /><span>LangGenius</span></div></Card>
-      </a> */}
-      {/* <div className="flex flex-shrink-0 pr-4 pb-4 pl-4">
+      </div>
+      <div className="flex flex-shrink-0 pr-4 pb-4 pl-4">
         <div className="text-gray-400 font-normal text-xs">© {copyRight} {(new Date()).getFullYear()}</div>
-      </div> */}
+      </div>
     </div>
   )
 }

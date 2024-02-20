@@ -1,7 +1,10 @@
 import React from "react";
 
 
-const PenIcon = () => {
+type PenIconProps = {
+    className: string
+}
+const PenIcon: React.FC<PenIconProps> = () => {
 
     return <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
         <path d="M7 12.4143H13" stroke="#C5C5D1" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />

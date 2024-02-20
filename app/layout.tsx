@@ -34,7 +34,7 @@ const LocaleLayout = ({
   const locale = getLocaleOnServer()
   return (
     <html lang={locale ?? 'en'} className={`h-full ${montserrat.className}`}>
-      <body className="h-full overflow-y-hidden">
+      <body className="h-full overflow-y-auto">
         <div className="overflow-x-auto">
           <div className="w-screen h-screen min-w-[300px]">
             {children}
