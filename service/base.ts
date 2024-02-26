@@ -333,6 +333,7 @@ export const del = <T>(url: string, options = {}, otherOptions?: IOtherOptions) 
 }
 
 export const delPublic = <T>(url: string, options = {}, otherOptions?: IOtherOptions) => {
+  console.log("inside delete",{url})
   return del<T>(url, options, { ...otherOptions, isPublicAPI: true })
 }
 

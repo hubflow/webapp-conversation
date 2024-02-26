@@ -12,7 +12,7 @@ import AppUnavailable from '@/app/components/app-unavailable'
 import { checkOrSetAccessToken } from '@/app/utils'
 
 import useConversation from '@/hooks/use-conversation'
-import { ToastContext } from '@/app/components/base/toast'
+import Toast, { ToastContext } from '@/app/components/base/toast'
 
 import {
   delConversation,
@@ -56,6 +56,7 @@ import ConfigSence from './config-scence'
 import Header from './header'
 import { addFileInfos, sortAgentSorts } from '@/utils/tools'
 import { APP_ID } from '@/config'
+import { replaceVarWithValues } from '@/utils/prompt'
 
 export type IMainProps = {
   isInstalledApp?: boolean
@@ -179,7 +180,7 @@ const Main: FC<IMainProps> = ({
 
   const didDelete = async () => {
     await delConversation(isInstalledApp, installedAppInfo?.id, toDeleteConversationId)
-    notify({ type: 'success', message: t('common.api.success') })
+    Toast.notify({ type: 'success', message: t('common.api.success') })
     hideConfirm()
     if (currConversationId === toDeleteConversationId)
       handleConversationIdChange('-1')
@@ -368,9 +369,7 @@ const Main: FC<IMainProps> = ({
     let caculatedIntroduction = introduction || conversationIntroduction || ''
     const caculatedPromptVariables = inputs || currInputs || null
     if (caculatedIntroduction && caculatedPromptVariables)
-
-      // caculatedIntroduction = replaceStringWithValues(caculatedIntroduction, promptConfig?.prompt_variables || [], caculatedPromptVariables)
-      caculatedIntroduction = ''
+      caculatedIntroduction = replaceVarWithValues(caculatedIntroduction, promptConfig?.prompt_variables || [], caculatedPromptVariables)
     const openstatement = {
       id: `${Date.now()}`,
       content: caculatedIntroduction,
@@ -866,16 +865,7 @@ const Main: FC<IMainProps> = ({
 
   return (
     <div className='bg-gray-100 h-full flex flex-col'>
-      {!isInstalledApp && (
-        <Header
-          title={siteInfo?.title}
-          icon={siteInfo?.icon || ''}
-          icon_background={siteInfo?.icon_background || ''}
-          isMobile={isMobile}
-          onShowSideBar={showSidebar}
-          onCreateNewChat={handleStartChatOnSidebar}
-        />
-      )}
+
 
       <div
         className={cn(
@@ -905,6 +895,16 @@ const Main: FC<IMainProps> = ({
           'h-full flex-grow flex flex-col overflow-y-auto',
         )
         }>
+          {!isInstalledApp && (
+            <Header
+              title={'Chatflo AI'}
+              icon={siteInfo?.icon || ''}
+              icon_background={siteInfo?.icon_background || ''}
+              isMobile={isMobile}
+              onShowSideBar={showSidebar}
+              onCreateNewChat={handleStartChatOnSidebar}
+            />
+          )}
           <ConfigSence
             conversationName={conversationName}
             hasSetInputs={hasSetInputs}

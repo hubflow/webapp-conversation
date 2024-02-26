@@ -16,6 +16,7 @@ import { FileUploadConfigResponse } from '@/types/common'
 
 
 function getAction(action: 'get' | 'post' | 'del' | 'patch', isInstalledApp: boolean) {
+  console.log({action})
   switch (action) {
     case 'get':
       return isInstalledApp ? consoleGet : get
@@ -85,7 +86,7 @@ export const unpinConversation = async (isInstalledApp: boolean, installedAppId 
 }
 
 export const delConversation = async (isInstalledApp: boolean, installedAppId = '', id: string) => {
-  return getAction('del', isInstalledApp)(getUrl(`conversations/${id}`, isInstalledApp, installedAppId))
+  return getAction('del', isInstalledApp)(getUrl(`conversations/${id}/name`, isInstalledApp, installedAppId))
 }
 
 export const renameConversation = async (isInstalledApp: boolean, installedAppId = '', id: string, name: string) => {

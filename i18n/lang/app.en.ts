@@ -5,6 +5,7 @@ const translation = {
     appUnkonwError: 'App is unavailable',
   },
   chat: {
+    title:'Chatflo AI',
     newChat: 'New chat',
     newChatDefaultName: 'New conversation',
     pinnedTitle: 'Pinned',
@@ -62,7 +63,11 @@ const translation = {
         log: 'Log',
         learnMore: 'Learn More',
         params: 'Params',
-      }
+      },
+      deleteConversation: {
+        title: 'Delete conversation',
+        content: 'Are you sure you want to delete this conversation?',
+      },
   },
   errorMessage: {
     valueOfVarRequired: 'Variables value can not be empty',

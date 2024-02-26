@@ -4,11 +4,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import cn from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useBoolean } from 'ahooks'
-
+import PenIcon from '../icons/PenIcon'
 import s from './style.module.css'
 import { PortalToFollowElem, PortalToFollowElemContent, PortalToFollowElemTrigger } from '@/app/components/base/portal-to-follow-elem'
 import PinIcon from '../icons/Pin'
-import PenIcon from '../icons/PenIcon'
 import DeleteIcon from '../icons/Delete'
 
 export type IItemOperationProps = {
@@ -50,7 +49,9 @@ const ItemOperation: FC<IItemOperationProps> = ({
       <PortalToFollowElemTrigger
         onClick={() => setOpen(v => !v)}
       >
-        <div className={cn(className, s.btn, 'h-6 w-6 rounded-md border-none py-1', (isItemHovering || open) && `${s.open} !bg-gray-100 !shadow-none`)}></div>
+        <div className={cn('h-6 w-6 rounded-md border-none py-1', (isItemHovering || open) && `${s.open} !shadow-none`)}>
+          {isItemHovering && <PenIcon className='h6 w-6' />}
+        </div>
       </PortalToFollowElemTrigger>
       <PortalToFollowElemContent
         className="z-50"
