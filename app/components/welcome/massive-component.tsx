@@ -18,8 +18,10 @@ export const AppInfoComp: FC<{ siteInfo: AppInfo }> = ({ siteInfo }) => {
       <div className='flex flex-col justify-center items-center'>
         <Logo className="h-[48px] w-[48px]" />
         <div className='flex items-center py-2 text-xl font-semibold text-[#101828] rounded-md'>{t('app.common.welcome')} {siteInfo.title}</div>
+        <div className='text-sm'>Chatflo doesn't have access to your Hubflo data at the moment</div>
+        <div className='text-sm'>Please don't share any private information</div>
       </div>
-      <p className='text-sm text-gray-500'>{siteInfo.description}</p>
+
     </div>
   )
 }
@@ -63,13 +65,7 @@ export const EditBtn = ({ className, onClick }: { className?: string; onClick: (
   const { t } = useTranslation()
 
   return (
-    <div
-      className={cn('px-2 flex space-x-1 items-center rounded-md  cursor-pointer', className)}
-      onClick={onClick}
-    >
-      <PencilIcon className='w-3 h-3' />
-      <span>{t('common.operation.edit')}</span>
-    </div>
+    <></>
   )
 }
 
