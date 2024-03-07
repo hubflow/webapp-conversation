@@ -22,10 +22,10 @@ const Button: FC<IButtonProps> = ({
   let style = 'cursor-pointer'
   switch (type) {
     case 'primary':
-      style = (disabled || loading) ? 'bg-[#101A3C] cursor-not-allowed text-white' : 'bg-[#101A3C] hover:bg-[#101A3C] hover:shadow-md cursor-pointer text-white hover:shadow-sm'
+      style = (disabled || loading) ? 'bg-[#101A3C] cursor-not-allowed text-white' : 'bg-[#101A3C] hover:!bg-[#101A3C] hover:!text-white hover:shadow-md cursor-pointer text-white hover:shadow-sm'
       break
     default:
-      style = disabled ? 'border-solid border border-[#444654] bg-gray-200 cursor-not-allowed text-gray-800' : 'border-solid border border-[#444654] cursor-pointer text-gray-500 hover:bg-[#414C6F] hover:shadow-sm'
+      style = disabled ? 'border-solid border border-[#444654] bg-gray-200 cursor-not-allowed text-gray-800' : 'border-solid border border-[#444654] cursor-pointer text-gray-500 hover:bg-[#414C6F] hover:shadow-sm hover:!text-white'
       break
   }
 

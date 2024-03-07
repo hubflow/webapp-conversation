@@ -3,6 +3,7 @@ const translation = {
     welcome: 'Welcome to ',
     appUnavailable: 'App is unavailable',
     appUnkonwError: 'App is unavailable',
+    
   },
   chat: {
     title:'Chatflo AI',

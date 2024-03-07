@@ -65,10 +65,10 @@ const ItemOperation: FC<IItemOperationProps> = ({
             e.stopPropagation()
           }}
         >
-          <div className={cn(s.actionItem, 'hover:bg-gray-50 group')} onClick={togglePin}>
+          {/* <div className={cn(s.actionItem, 'hover:bg-gray-50 group')} onClick={togglePin}>
             <PinIcon className='shrink-0 w-4 h-4 text-gray-500' />
             <span className={s.actionName}>{isPinned ? t('app.chat.action.unpin') : t('app.chat.action.pin')}</span>
-          </div>
+          </div> */}
           {isShowRenameConversation && (
             <div className={cn(s.actionItem, 'hover:bg-gray-50 group')} onClick={onRenameConversation}>
               <PenIcon className='shrink-0 w-4 h-4 text-gray-500' />

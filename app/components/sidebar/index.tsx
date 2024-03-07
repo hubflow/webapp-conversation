@@ -114,7 +114,7 @@ const Sidebar: FC<ISidebarProps> = ({
       </div>
       <div className={'flex-grow flex flex-col h-0 overflow-y-auto overflow-x-hidden'}>
         {/* pinned list */}
-        {hasPinned && (
+        {/* {hasPinned && (
           <div className={cn('mt-4 px-4', list.length === 0 && 'flex flex-col flex-grow')}>
             <div className='mb-1.5 leading-[18px] text-xs text-gray-500 font-medium uppercase'>{t('app.chat.pinnedTitle')}</div>
             <List
@@ -134,7 +134,7 @@ const Sidebar: FC<ISidebarProps> = ({
               onDelete={onDelete}
             />
           </div>
-        )}
+        )} */}
         {/* unpinned list */}
         <div className={cn('grow flex flex-col mt-4 px-4', !hasPinned && 'flex flex-col flex-grow')}>
           {(hasPinned && list.length > 0) && (
