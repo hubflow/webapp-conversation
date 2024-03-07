@@ -93,7 +93,7 @@ const List: FC<IListProps> = ({
 
       Toast.notify({
         type: 'success',
-        message: t('common.actionMsg.modifiedSuccessfully'),
+        message: t('app.common.actionMsg.modifiedSuccessfully'),
       })
       onListChanged?.(list.map((item) => {
         if (item.id === currId) {

@@ -54,7 +54,7 @@ const Item: FC<IItemProps> = ({
           )}
           aria-hidden="true"
         />
-        <span>{item.name}</span>
+        <span className="truncate hover:truncate-off inline-block" title={item.name}>{item.name}</span>
       </div>
 
       {item.id !== '-1' && (

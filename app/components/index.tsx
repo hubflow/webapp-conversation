@@ -862,6 +862,7 @@ const Main: FC<IMainProps> = ({
       <Loading type='app' />
     </div>
   }
+  console.log({ isMobile })
 
   return (
     <div className='bg-gray-100 h-full flex flex-col'>
@@ -879,7 +880,7 @@ const Main: FC<IMainProps> = ({
           : {}}
       >
         {/* sidebar */}
-        {true && renderSidebar()}
+        {!isMobile && renderSidebar()}
         {isMobile && isShowSidebar && (
           <div className='fixed inset-0 z-50'
             style={{ backgroundColor: 'rgba(35, 56, 118, 0.2)' }}
