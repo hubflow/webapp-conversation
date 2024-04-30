@@ -91,7 +91,6 @@ const Chat: FC<IChatProps> = ({
     return true
   }
 
-
   useEffect(() => {
     if (controlClearQuery)
       setQuery('')
@@ -106,8 +105,6 @@ const Chat: FC<IChatProps> = ({
     onClear,
   } = useImageFiles()
 
-  // console.log({ x: checkCanSend && checkCanSend() })
-  // console.log({ VALID: valid() })
   const handleSend = (q?: string) => {
     if (!valid(q) || (checkCanSend && !checkCanSend()))
       return
@@ -135,9 +132,8 @@ const Chat: FC<IChatProps> = ({
   }
 
   const handleSuggestedQuestionsChange = (val: string) => {
-    setQuery(val.replace(/\n$/, ''));
+    setQuery(val.replace(/\n$/, ''))
     handleSend(val)
-
   }
 
   const handleKeyDown = (e: any) => {
@@ -177,7 +173,7 @@ const Chat: FC<IChatProps> = ({
       </div>
       {
         !isHideSendInput && (
-          <div className={cn(!feedbackDisabled && '!left-3.5 !right-3.5', 'absolute z-10 bottom-0 left-0 right-0')}>
+          <div className={cn(!feedbackDisabled && '!left-3.5 !right-3.5', 'absolute z-10 bottom-0 left-0 right-0 px-4')}>
             <div className='p-[5.5px] max-h-[150px] bg-white border-[1.5px] border-[#ECECF1] overflow-y-auto rounded-lg border bg-white shadow-md'>
               {
                 visionConfig?.enabled && (
@@ -213,7 +209,7 @@ const Chat: FC<IChatProps> = ({
                 onKeyDown={handleKeyDown}
                 autoSize
               />
-              <div className="absolute bottom-2 right-2 flex items-center h-8">
+              <div className="absolute bottom-2 right-6 flex items-center h-8">
                 <Tooltip
                   selector='send-tip'
                   htmlContent={

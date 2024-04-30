@@ -3,14 +3,11 @@ import type { FC } from 'react'
 import React from 'react'
 import cn from 'classnames'
 import { useTranslation } from 'react-i18next'
-import {
-  PencilIcon,
-} from '@heroicons/react/24/solid'
+
+import Logo from '../icons/Logo'
 import s from './style.module.css'
 import type { AppInfo } from '@/types/app'
 import Button from '@/app/components/base/button'
-import Logo from '../icons/Logo'
-import PenIcon from '../icons/PenIcon'
 
 export const AppInfoComp: FC<{ siteInfo: AppInfo }> = ({ siteInfo }) => {
   console.log({ siteInfo })
@@ -19,9 +16,11 @@ export const AppInfoComp: FC<{ siteInfo: AppInfo }> = ({ siteInfo }) => {
     <div className='flex justify-center'>
       <div className='flex flex-col justify-center items-center'>
         <Logo className="h-[48px] w-[48px]" />
-        <div className='flex items-center py-2 text-xl font-semibold text-[#101828] rounded-md'>{t('app.common.welcome')} {"Chatflo AI"}</div>
-        <div className='text-sm'>Chatflo doesn't have access to your Hubflo data at the moment</div>
-        <div className='text-sm'>Please don't share any private information</div>
+        <div className='flex flex-col justify-center items-center'>
+          <div className='flex items-center py-2 text-xl font-semibold text-[#101828] rounded-md'>{t('app.common.welcome')} {'Chatflo AI'}</div>
+          <div className='text-sm'>Chatflo doesn't have access to your Hubflo data at the moment</div>
+          <div className='text-sm'>Please don't share any private information</div>
+        </div>
       </div>
 
     </div>

@@ -2,14 +2,14 @@
 import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import classNames from 'classnames'
 import TemplateVarPanel, { PanelTitle, VarOpBtnGroup } from '../value-panel'
 import s from './style.module.css'
-import { AppInfoComp, ChatBtn, EditBtn, FootLogo, PromptTemplate } from './massive-component'
+import { AppInfoComp, ChatBtn, EditBtn, PromptTemplate } from './massive-component'
 import type { AppInfo, PromptConfig } from '@/types/app'
 import Toast from '@/app/components/base/toast'
 import Select from '@/app/components/base/select'
 import { DEFAULT_VALUE_MAX_LEN } from '@/config'
-import classNames from 'classnames'
 
 // regex to match the {{}} and replace it with a span
 const regex = /\{\{([^}]+)\}\}/g
@@ -94,7 +94,7 @@ const Welcome: FC<IWelcomeProps> = ({
       <div className='space-y-6 w-full'>
         {promptConfig.prompt_variables.map(item => (
           <div className='tablet:flex flex-col items-start mobile:space-y-2 tablet:space-y-0 mobile:text-xs tablet:text-sm' key={item.key}>
-            <label className={`flex-shrink-0 flex items-center tablet:leading-9 mobile:text-[#162040] tablet:text-[#162040] mobile:font-medium pc:font-normal ${s.formLabel}`}>{item.name}{item.type !== "select" && <sup>*</sup>}</label>
+            <label className={`flex-shrink-0 flex items-center tablet:leading-9 mobile:text-[#162040] tablet:text-[#162040] mobile:font-medium pc:font-normal ${s.formLabel}`}>{item.name}{item.type !== 'select' && <sup>*</sup>}</label>
             {item.type === 'select'
               && (
                 <Select
@@ -111,8 +111,8 @@ const Welcome: FC<IWelcomeProps> = ({
                 placeholder={`${item.name}${!item.required ? `(${t('appDebug.variableTable.optional')})` : ''}`}
                 value={inputs?.[item.key] || ''}
                 onChange={(e) => { setInputs({ ...inputs, [item.key]: e.target.value }) }}
-                className={'w-full flex-grow py-3 px-3.5 box-border rounded-lg border border-[#EAECF0] focus:!border focus:!border-[#EAECF0] !h-[46px]'}
-                style={{ boxShadow: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)" }}
+                className={'w-full flex-grow py-3 px-3.5 box-border rounded-lg border border-[#EAECF0] focus:!border focus:!border-[#EAECF0] !h-[46px] focus:outline-none focus:ring focus:border-blue-500'}
+                style={{ boxShadow: '0px 1px 2px 0px rgba(16, 24, 40, 0.05)' }}
                 maxLength={item.max_length || DEFAULT_VALUE_MAX_LEN}
               />
             )}
@@ -191,10 +191,10 @@ const Welcome: FC<IWelcomeProps> = ({
           <AppInfoComp siteInfo={siteInfo} />
         }
       >
-        <div className='pc:w-[440px] gap-[26px] flex flex-col items-end'>
+        <div className='pc:w-[440px] gap-[26px] flex flex-col items-center'>
           {renderInputs()}
           <ChatBtn
-            className='mobile:ml-0 tablet:ml-[128px] poppins-font'
+            className='mobile:ml-0  poppins-font'
             onClick={handleChat}
           />
         </div>
@@ -293,15 +293,19 @@ const Welcome: FC<IWelcomeProps> = ({
 
     return (
       <div
-        className='pt-[88px] mb-5'
+        className='pt-[88px] mb-5 mx-4'
       >
         {isPublicVersion ? renderHasSetInputsPublic() : renderHasSetInputsPrivate()}
       </div>)
   }
 
+  console.log({ hasSetInputs })
   return (
-    <div className={classNames('relative mobile:min-h-[48px] tablet:min-h-[64px]', { 'h-[90vh]': !hasSetInputs })}>
-      {hasSetInputs && renderHeader()}
+    <div className={classNames('relative mt-0', {
+      'h-[90vh] mobile:min-h-[48px] tablet:min-h-[64px] pc:min-h-[80px]': !hasSetInputs,
+
+    })}>
+      {/* {hasSetInputs && renderHeader()} */}
       <div className='mx-auto pc:w-[794px] max-w-full mobile:w-full px-3.5'>
         {/*  Has't set inputs  */}
         {
@@ -319,7 +323,7 @@ const Welcome: FC<IWelcomeProps> = ({
         }
 
         {/* Has set inputs */}
-        {hasSetInputs && renderHasSetInputs()}
+        {/* {hasSetInputs && renderHasSetInputs()} */}
 
         {/* foot */}
         {/* {!hasSetInputs && (

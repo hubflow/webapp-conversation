@@ -8,8 +8,17 @@ import { useTranslation } from 'react-i18next'
 import { useContext } from 'use-context-selector'
 import produce, { setAutoFreeze } from 'immer'
 import { useBoolean, useGetState } from 'ahooks'
+import type {
+  CitationConfig,
+  PromptConfig,
+  SpeechToTextConfig,
+  SuggestedQuestionsAfterAnswerConfig,
+  TextToSpeechConfig,
+} from '../../types/debug'
+import Sidebar from './sidebar'
+import ConfigSence from './config-scence'
+import Header from './header'
 import AppUnavailable from '@/app/components/app-unavailable'
-import { checkOrSetAccessToken } from '@/app/utils'
 
 import useConversation from '@/hooks/use-conversation'
 import Toast, { ToastContext } from '@/app/components/base/toast'
@@ -17,10 +26,10 @@ import Toast, { ToastContext } from '@/app/components/base/toast'
 import {
   delConversation,
   fetchAppInfo,
-  fetchAppMeta,
   fetchAppParams,
   fetchChatList,
   fetchConversations,
+  fetchFileUploadConfig,
   fetchSuggestedQuestions,
   generationConversationName,
   pinConversation,
@@ -30,14 +39,6 @@ import {
   updateFeedback,
 } from '@/service'
 
-
-import type {
-  CitationConfig,
-  PromptConfig,
-  SpeechToTextConfig,
-  SuggestedQuestionsAfterAnswerConfig,
-  TextToSpeechConfig,
-} from '../../types/debug'
 import type { Feedbacktype, IChatItem } from '@/app/components'
 import Chat from '@/app/components/chat'
 import { changeLanguage } from '@/i18n/i18next-config'
@@ -49,11 +50,7 @@ import type { InstalledApp } from '@/models'
 import Confirm from '@/app/components/base/confirm'
 import type { VisionFile, VisionSettings } from '@/types/app'
 import { Resolution, TransferMethod } from '@/types/app'
-import { fetchFileUploadConfig } from '@/service'
 import type { Annotation as AnnotationType } from '@/app/components/chat/type'
-import Sidebar from './sidebar'
-import ConfigSence from './config-scence'
-import Header from './header'
 import { addFileInfos, sortAgentSorts } from '@/utils/tools'
 import { APP_ID } from '@/config'
 import { replaceVarWithValues } from '@/utils/prompt'
@@ -469,7 +466,7 @@ const Main: FC<IMainProps> = ({
         setInited(true)
       }
       catch (e: any) {
-        console.log("EVENT", e)
+        console.log('EVENT', e)
         if (e.status === 404) {
           // setAppUnavailable(true)
         }
@@ -555,12 +552,12 @@ const Main: FC<IMainProps> = ({
 
   const handleSend = async (message: string, files?: VisionFile[]) => {
     if (isResponsing) {
-      notify({ type: 'info', message: t('appDebug.errorMessage.waitForResponse') })
+      Toast.notify({ type: 'info', message: t('app.errorMessage.waitForResponse') })
       return
     }
 
     if (files?.find(item => item.transfer_method === TransferMethod.local_file && !item.upload_file_id)) {
-      notify({ type: 'info', message: t('appDebug.errorMessage.waitForImgUpload') })
+      Toast.notify({ type: 'info', message: t('appDebug.errorMessage.waitForImgUpload') })
       return false
     }
 
@@ -815,7 +812,6 @@ const Main: FC<IMainProps> = ({
     handleConversationIdChange('-1')
   }, [handleConversationIdChange])
 
-
   const renderSidebar = () => {
     console.log({ siteInfo })
     if (!APP_ID || !promptConfig)
@@ -866,7 +862,6 @@ const Main: FC<IMainProps> = ({
 
   return (
     <div className='bg-gray-100 h-full flex flex-col'>
-
 
       <div
         className={cn(
@@ -923,7 +918,7 @@ const Main: FC<IMainProps> = ({
 
           {
             hasSetInputs && (
-              <div className={cn(doShowSuggestion ? 'pb-[140px]' : (isResponsing ? 'pb-[113px]' : 'pb-[76px]'), 'relative grow h-[200px] pc:w-[794px] max-w-full mobile:w-full mx-auto mb-3.5 overflow-hidden')}>
+              <div className={cn(doShowSuggestion ? 'pb-[140px]' : (isResponsing ? 'pb-[113px]' : 'pb-[76px]'), 'relative grow h-[200px] pc:w-[794px] px-4 max-w-full mobile:w-full mx-auto mb-3.5 overflow-hidden')}>
                 <div className='h-full overflow-y-auto' ref={chatListDomRef}>
                   <Chat
                     chatList={chatList}
