@@ -30,7 +30,6 @@ import {
   fetchChatList,
   fetchConversations,
   fetchFileUploadConfig,
-  fetchSuggestedQuestions,
   generationConversationName,
   pinConversation,
   sendChatMessage,
@@ -670,11 +669,11 @@ const Main: FC<IMainProps> = ({
         resetNewConversationInputs()
         setChatNotStarted()
         setCurrConversationId(tempNewConversationId, appId, true)
-        if (getIsResponsingConIsCurrCon() && suggestedQuestionsAfterAnswerConfig?.enabled && !getHasStopResponded()) {
-          const { data }: any = await fetchSuggestedQuestions(responseItem.id, isInstalledApp, installedAppInfo?.id)
-          setSuggestQuestions(data)
-          setIsShowSuggestion(true)
-        }
+        // if (getIsResponsingConIsCurrCon() && suggestedQuestionsAfterAnswerConfig?.enabled && !getHasStopResponded()) {
+        //   const { data }: any = await fetchSuggestedQuestions(responseItem.id, isInstalledApp, installedAppInfo?.id)
+        //   setSuggestQuestions(data)
+        //   setIsShowSuggestion(true)
+        // }
         setResponsingFalse()
       },
       onFile(file) {
