@@ -46,14 +46,15 @@ import Loading from '@/app/components/base/loading'
 // import { replaceStringWithValues } from '../../config/prompt-value-panel'
 import { userInputsFormToPromptVariables } from '@/utils/model-config'
 import type { InstalledApp } from '@/models'
+import { APP_ID } from '@/config'
 import Confirm from '@/app/components/base/confirm'
 import type { VisionFile, VisionSettings } from '@/types/app'
 import { Resolution, TransferMethod } from '@/types/app'
 import type { Annotation as AnnotationType } from '@/app/components/chat/type'
 import { addFileInfos, sortAgentSorts } from '@/utils/tools'
-import { APP_ID } from '@/config'
 import { replaceVarWithValues } from '@/utils/prompt'
 
+console.log('APP_ID', APP_ID)
 export type IMainProps = {
   isInstalledApp?: boolean
   installedAppInfo?: InstalledApp
@@ -69,6 +70,7 @@ const Main: FC<IMainProps> = ({
   const media = useBreakpoints()
   const isMobile = media === MediaType.mobile
 
+  console.log('INSTALLED APP INFO', installedAppInfo)
   /*
   * app info
   */
@@ -251,6 +253,8 @@ const Main: FC<IMainProps> = ({
     }
   }, [])
 
+  console.log('CONVERSATION LIST', conversationList)
+
   useEffect(() => {
     (async () => {
       if (controlChatUpdateAllConversation && !isNewConversation) {
@@ -328,6 +332,10 @@ const Main: FC<IMainProps> = ({
   }
   useEffect(handleConversationSwitch, [currConversationId, inited])
 
+  // const getConversationIdFromStorage = useCallback((appId: string) => {
+  //   const id = localStorage.getItem(`conversation_id_${appId}`)
+  //   return id || '-1'
+  // }
   /*
   * chat info. chat is under conversation.
   */
@@ -338,8 +346,10 @@ const Main: FC<IMainProps> = ({
   }, [chatList, currConversationId])
   // user can not edit inputs if user had send message
   const canEditInpus = !chatList.some(item => item.isAnswer === false) && isNewConversation
+  const storedConversationId = getConversationIdFromStorage(appId)
 
   const handleConversationIdChange = useCallback((id: string) => {
+    console.log('Inside conversation id change', id)
     if (id === '-1') {
       createNewChat()
       setConversationIdChangeBecauseOfNew(true)
@@ -388,7 +398,7 @@ const Main: FC<IMainProps> = ({
     if (!isInstalledApp)
       // await checkOrSetAccessToken()
 
-      console.log({ isInstalledApp })
+      console.log({ isInstalledApp, installedAppInfo })
     return Promise.all([isInstalledApp
       ? {
         app_id: installedAppInfo?.id,
@@ -424,7 +434,7 @@ const Main: FC<IMainProps> = ({
         const { data: allConversations } = conversationData as { data: ConversationItem[]; has_more: boolean }
         console.log({ allConversations })
 
-        const _conversationId = getConversationIdFromStorage(appId)
+        const _conversationId = getConversationIdFromStorage(APP_ID)
         const isNotNewConversation = allConversations.some(item => item.id === _conversationId)
         setAllConversationList(allConversations)
         // fetch new conversation info
