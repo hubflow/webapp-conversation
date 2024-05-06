@@ -12,7 +12,6 @@ import type { VisionFile, VisionSettings } from '@/types/app'
 import { TransferMethod } from '@/types/app'
 import Tooltip from '@/app/components/base/tooltip'
 import Toast from '@/app/components/base/toast'
-import ChatImageUploader from '@/app/components/base/image-uploader/chat-image-uploader'
 import ImageList from '@/app/components/base/image-uploader/image-list'
 import { useImageFiles } from '@/app/components/base/image-uploader/hooks'
 
@@ -178,14 +177,14 @@ const Chat: FC<IChatProps> = ({
               {
                 visionConfig?.enabled && (
                   <>
-                    <div className='absolute bottom-2 left-2 flex items-center'>
+                    {/* <div className='absolute bottom-2 left-2 flex items-center'>
                       <ChatImageUploader
                         settings={visionConfig}
                         onUpload={onUpload}
                         disabled={files.length >= visionConfig.number_limits}
                       />
                       <div className='mx-1 w-[1px] h-4 bg-black/5' />
-                    </div>
+                    </div> */}
                     <div className='pl-[52px]'>
                       <ImageList
                         list={files}
@@ -201,7 +200,7 @@ const Chat: FC<IChatProps> = ({
               <Textarea
                 className={`
                   block w-full px-2 pr-[118px] py-[7px] leading-5 max-h-none text-sm text-gray-700 outline-none appearance-none resize-none
-                  ${visionConfig?.enabled && 'pl-12'}
+                
                 `}
                 value={query}
                 onChange={handleContentChange}
