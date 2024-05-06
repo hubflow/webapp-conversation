@@ -69,7 +69,7 @@ const Answer: FC<IAnswerProps> = ({
   onFeedback,
   isResponsing,
   allToolIcons,
-  onQueryChange
+  onQueryChange,
 }) => {
   const { id, content, feedback, agent_thoughts } = item
   const isAgentMode = !!agent_thoughts && agent_thoughts.length > 0
@@ -179,7 +179,7 @@ const Answer: FC<IAnswerProps> = ({
         <div className={`${s.answerWrap}`}>
           <div className={`${s.answer} relative text-sm text-gray-900`}>
             <div className={'pt-0 px-4 text-gray-900 font-bold pb-[4px]'}>Chatflo</div>
-            <div className={'py-3 pt-0 px-4'}>
+            <div className={'py-3 pt-0 px-4 font-[14px] leading-6'}>
               {(isResponsing && (isAgentMode ? (!content && (agent_thoughts || []).filter(item => !!item.thought || !!item.tool).length === 0) : !content))
                 ? (
                   <div className='flex items-center justify-center w-6 h-5'>
