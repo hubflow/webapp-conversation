@@ -18,8 +18,8 @@ export const AppInfoComp: FC<{ siteInfo: AppInfo }> = ({ siteInfo }) => {
         <Logo className="h-[48px] w-[48px]" />
         <div className='flex flex-col justify-center items-center'>
           <div className='flex items-center py-2 text-xl font-semibold text-[#101828] rounded-md'>{t('app.common.welcome')} {'Chatflo AI'}</div>
-          <div className='text-sm'>Chatflo doesn't have access to your Hubflo data at the moment</div>
-          <div className='text-sm'>Please don't share any private information</div>
+          <div className='text-sm text-center'>Chatflo doesn't have access to your Hubflo data at the moment</div>
+          <div className='text-sm text-center'>Please don't share any private information</div>
         </div>
       </div>
 
