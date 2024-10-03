@@ -4,7 +4,7 @@ export const API_KEY = `${process.env.NEXT_PUBLIC_APP_KEY}`
 export const API_URL = `${process.env.NEXT_PUBLIC_API_URL}`
 export const APP_INFO: AppInfo = {
   title: 'Chatflo AI',
-  description: `Chatflo doesn't have access to your Hubflo data at the moment Please don't share any private information`,
+  description: '',
   copyright: '',
   privacy_policy: '',
   default_language: 'en',
